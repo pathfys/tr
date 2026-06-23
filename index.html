@@ -12,17 +12,29 @@
     --bg:#F4EEE6; --surface:#EFE8DF; --surface-2:#E9E0D2; --line:#DDD0BD;
     --accent:#C4AC8A; --accent-dark:#B59B78; --accent-soft:#EAE1D3;
     --ink:#5F4F3A; --ink-2:#6B5B47; --muted:#A2917A; --muted-2:#9C8A72;
+    --splash-bg:#EFE8DF; --blob:#E2D7C7; --avatar-bg:#E2D3BD; --avatar-tx:#8C7355;
     --pill-gold-bg:#E4D3B6; --pill-gold-tx:#7A5E2E;
     --pill-green-bg:#D6E2D0; --pill-green-tx:#4A6138;
     --pill-gray-bg:#DDD3C4; --pill-gray-tx:#6B5B47;
+    --on-accent:#473A29; --field-bg:#FBF8F3;
     --r-sm:10px; --r-md:12px; --r-lg:16px;
+  }
+  html[data-theme="dark"]{
+    --bg:#1C1A17; --surface:#26231F; --surface-2:#2E2A25; --line:#3A352E;
+    --accent:#C4AC8A; --accent-dark:#A88E68; --accent-soft:#332E27;
+    --ink:#EDE6DA; --ink-2:#CFC4B4; --muted:#8E8273; --muted-2:#9C8F7C;
+    --splash-bg:#26231F; --blob:#332E27; --avatar-bg:#3A332B; --avatar-tx:#D7C4A6;
+    --pill-gold-bg:#4A3D26; --pill-gold-tx:#E2C893;
+    --pill-green-bg:#2E3D2A; --pill-green-tx:#A9C99B;
+    --pill-gray-bg:#39342C; --pill-gray-tx:#C3B7A4;
+    --on-accent:#2A2017; --field-bg:#201D19;
   }
   *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
   html,body{height:100%;}
   body{
     font-family:'Inter',-apple-system,system-ui,sans-serif;
     background:var(--bg); color:var(--ink);
-    display:flex; align-items:center; justify-content:center;
+    display:flex; align-items:center; justify-content:center; transition:background .3s,color .3s;
   }
   #app{
     width:100%; max-width:400px; height:100vh; max-height:880px;
@@ -30,14 +42,13 @@
     display:flex; flex-direction:column;
   }
 
-  /* ---------- splash ---------- */
   #splash{
-    position:absolute; inset:0; z-index:50; background:#EFE8DF;
+    position:absolute; inset:0; z-index:50; background:var(--splash-bg);
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
     overflow:hidden; transition:opacity .5s ease;
   }
   #splash.hide{opacity:0; pointer-events:none;}
-  .blob{position:absolute; border-radius:50%; background:#E2D7C7;}
+  .blob{position:absolute; border-radius:50%; background:var(--blob);}
   .blob.a{top:-50px; right:-50px; width:180px; height:180px; opacity:.5;}
   .blob.b{bottom:-60px; left:-40px; width:150px; height:150px; opacity:.45;}
   .splash-inner{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:18px;}
@@ -51,7 +62,6 @@
   @keyframes load{0%{width:8%;}50%{width:62%;}100%{width:100%;}}
   .loading-txt{position:relative; z-index:1; font-size:12px; color:var(--muted);}
 
-  /* ---------- screens ---------- */
   .screens{flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;}
   .screen{display:none; padding:20px 16px 16px; animation:fade .28s ease;}
   .screen.on{display:block;}
@@ -69,12 +79,14 @@
   .lbl{font-size:11px; letter-spacing:.06em; color:var(--muted-2); text-transform:uppercase; margin:16px 0 8px;}
   .t-name{font-size:14px; font-weight:500; color:var(--ink);}
   .t-sub{font-size:11px; color:var(--muted); margin-top:2px;}
+  .empty{font-size:13px; color:var(--muted); text-align:center; padding:24px 0;}
 
   .btn{
-    width:100%; background:var(--accent); color:#473A29; border:none; border-radius:var(--r-sm);
-    padding:13px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; transition:transform .1s;
+    width:100%; background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--r-sm);
+    padding:13px; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; transition:transform .1s,opacity .15s;
   }
   .btn:active{transform:scale(.98);}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
   .btn.ghost{background:var(--accent-soft); color:var(--ink-2); border:.5px solid var(--line);}
   .btn.col{display:flex; flex-direction:column; align-items:center; gap:5px; padding:14px 8px;}
   .btn.col i{font-size:20px;}
@@ -87,10 +99,10 @@
   .ds-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;}
   .ds-cell{background:var(--surface-2); border-radius:var(--r-sm); padding:12px 10px; text-align:center;}
   .ds-cell .cap{font-size:11px; color:var(--muted-2);}
-  .ds-cell .num{font-size:21px; font-weight:500; margin-top:4px;}
-  .ds-turnover{background:#E7DCCB; border:.5px solid var(--line); border-radius:var(--r-sm); padding:13px; text-align:center;}
+  .ds-cell .num{font-size:21px; font-weight:500; margin-top:4px; color:var(--ink);}
+  .ds-turnover{background:var(--surface-2); border:.5px solid var(--line); border-radius:var(--r-sm); padding:13px; text-align:center;}
   .ds-turnover .cap{font-size:11px; color:var(--muted-2);}
-  .ds-turnover .num{font-size:21px; font-weight:500; color:#8C6F4A; margin-top:4px;}
+  .ds-turnover .num{font-size:21px; font-weight:500; color:var(--accent-dark); margin-top:4px;}
 
   .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   .stat{background:var(--surface); border-radius:var(--r-md); padding:14px; text-align:center;}
@@ -99,30 +111,64 @@
 
   .filters{display:flex; gap:6px; margin-bottom:12px;}
   .fil{font-size:11px; padding:6px 12px; border-radius:99px; border:none; cursor:pointer;
-       background:var(--accent-soft); color:#8C7B66; font-family:inherit;}
-  .fil.on{background:var(--accent); color:#473A29;}
+       background:var(--accent-soft); color:var(--muted); font-family:inherit;}
+  .fil.on{background:var(--accent); color:var(--on-accent);}
 
-  /* ---------- bottom nav (клавиатура) ---------- */
+  input,textarea{
+    width:100%; background:var(--field-bg); border:.5px solid var(--line); border-radius:var(--r-sm);
+    padding:12px 13px; font-size:15px; font-family:inherit; color:var(--ink); outline:none; transition:border .15s;
+  }
+  input:focus,textarea:focus{border-color:var(--accent);}
+  textarea{resize:none; min-height:96px; line-height:1.5;}
+
   nav{display:flex; background:var(--surface-2); border-top:.5px solid var(--line); padding-bottom:env(safe-area-inset-bottom);}
   .tab{flex:1; background:none; border:none; padding:10px 0 9px; display:flex; flex-direction:column;
        align-items:center; gap:3px; cursor:pointer; color:var(--muted); font-size:11px; font-family:inherit; transition:color .15s;}
   .tab i{font-size:22px;}
-  .tab.on{color:#8C6F4A;}
+  .tab.on{color:var(--accent-dark);}
 
-  .avatar{width:36px; height:36px; border-radius:50%; background:#E2D3BD; display:flex;
-          align-items:center; justify-content:center; color:#8C7355; font-weight:500; font-size:14px; flex-shrink:0;}
+  .avatar{width:36px; height:36px; border-radius:50%; background:var(--avatar-bg); display:flex;
+          align-items:center; justify-content:center; color:var(--avatar-tx); flex-shrink:0;}
   .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+  .top-actions{display:flex; align-items:center; gap:14px;}
+  .icon-btn{background:none; border:none; cursor:pointer; color:var(--muted-2); font-size:20px; padding:0; display:flex;}
+
+  #sheet-overlay{
+    position:absolute; inset:0; z-index:40; background:rgba(0,0,0,.4);
+    display:none; align-items:flex-end; opacity:0; transition:opacity .25s;
+  }
+  #sheet-overlay.on{display:flex; opacity:1;}
+  .sheet{
+    width:100%; background:var(--bg); border-radius:18px 18px 0 0; padding:8px 16px 20px;
+    max-height:80%; overflow-y:auto; transform:translateY(100%); transition:transform .3s cubic-bezier(.2,.8,.3,1);
+  }
+  #sheet-overlay.on .sheet{transform:translateY(0);}
+  .grabber{width:40px; height:4px; border-radius:99px; background:var(--line); margin:6px auto 14px;}
+  .sheet-head{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .sheet-back{background:none; border:none; cursor:pointer; color:var(--muted-2); font-size:22px; padding:0; display:flex;}
+  .sheet-title{font-size:17px; font-weight:500; color:var(--ink);}
+  .sheet-hint{font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px;}
+  .review-row{display:flex; justify-content:space-between; padding:11px 0; border-bottom:.5px solid var(--line); font-size:14px;}
+  .review-row:last-child{border-bottom:none;}
+  .review-row .k{color:var(--muted);}
+  .review-row .v{color:var(--ink); font-weight:500; text-align:end; max-width:60%; word-break:break-word;}
+  .success-box{text-align:center; padding:18px 0 4px;}
+  .success-ic{width:64px; height:64px; border-radius:50%; background:var(--pill-green-bg); color:var(--pill-green-tx);
+              display:flex; align-items:center; justify-content:center; font-size:34px; margin:0 auto 14px;}
+  .lang-pills{display:flex; gap:6px;}
+  .lang-pill{font-size:12px; padding:5px 11px; border-radius:99px; border:.5px solid var(--line);
+             background:var(--surface); color:var(--ink-2); cursor:pointer; font-family:inherit;}
+  .lang-pill.on{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ============ SPLASH ============ -->
   <div id="splash">
     <div class="blob a"></div>
     <div class="blob b"></div>
     <div class="splash-inner">
-      <svg class="logo-shield" viewBox="0 0 80 92" width="88" height="100" role="img" aria-label="Логотип TrustGift">
+      <svg class="logo-shield" viewBox="0 0 80 92" width="88" height="100" role="img" aria-label="TrustGift">
         <path d="M40 4 L72 16 V44 C72 66 58 82 40 88 C22 82 8 66 8 44 V16 Z" fill="#D8C7B0" stroke="#B59B78" stroke-width="1.5"/>
         <rect x="28" y="40" width="24" height="22" rx="3" fill="#8C7355"/>
         <rect x="26" y="36" width="28" height="8" rx="2" fill="#8C7355"/>
@@ -133,201 +179,370 @@
       <div class="brand"><h1>TrustGift</h1><span>p2p escrow</span></div>
     </div>
     <div class="bar"><i></i></div>
-    <div class="loading-txt">Загрузка…</div>
+    <div class="loading-txt" data-i18n="loading">Загрузка…</div>
   </div>
 
-  <!-- ============ SCREENS ============ -->
   <div class="screens">
 
-    <!-- HOME -->
     <section id="s-home" class="screen on">
       <div class="topbar">
         <div style="display:flex; align-items:center; gap:10px;">
-          <div class="avatar">AП</div>
+          <div class="avatar"><i class="ti ti-user" style="font-size:20px;"></i></div>
           <div>
-            <p class="t-name">Привет, Артём</p>
-            <p style="font-size:11px; color:var(--muted);">Гарант активен</p>
+            <p class="t-name" data-i18n="greeting">Здравствуйте</p>
+            <p style="font-size:11px; color:var(--muted);" data-i18n="guarantor_active">Гарант активен</p>
           </div>
         </div>
-        <i class="ti ti-bell" style="font-size:20px; color:var(--muted-2);"></i>
+        <div class="top-actions">
+          <button class="icon-btn" id="theme-btn" aria-label="theme"><i class="ti ti-moon"></i></button>
+          <button class="icon-btn" aria-label="bell"><i class="ti ti-bell"></i></button>
+        </div>
       </div>
 
       <div class="card" style="margin-bottom:12px;">
-        <p style="font-size:11px; color:var(--muted-2); margin-bottom:4px;">Сделок в работе</p>
-        <p style="font-size:26px; font-weight:500; color:var(--ink);">3</p>
+        <p style="font-size:11px; color:var(--muted-2); margin-bottom:4px;" data-i18n="deals_in_progress">Сделок в работе</p>
+        <p style="font-size:26px; font-weight:500; color:var(--ink);">0</p>
       </div>
 
       <div class="stat-grid">
-        <button class="btn col" onclick="go('deals')"><i class="ti ti-plus"></i>Новая сделка</button>
-        <button class="btn col ghost" onclick="go('deals')"><i class="ti ti-link"></i>По коду</button>
+        <button class="btn col" onclick="openCreate()"><i class="ti ti-plus"></i><span data-i18n="new_deal">Новая сделка</span></button>
+        <button class="btn col ghost"><i class="ti ti-link"></i><span data-i18n="by_code">По коду</span></button>
       </div>
 
-      <p class="lbl">Активные сделки</p>
-      <div class="row">
-        <div><p class="t-name">NFT Plush Pepe</p><p class="t-sub">Ожидает подтверждения</p></div>
-        <span class="pill" style="background:var(--pill-gold-bg); color:var(--pill-gold-tx);">Гарант</span>
-      </div>
-      <div class="row">
-        <div><p class="t-name">Подарок «Кольцо»</p><p class="t-sub">Средства внесены</p></div>
-        <span class="pill" style="background:var(--pill-green-bg); color:var(--pill-green-tx);">Оплачено</span>
-      </div>
+      <p class="lbl" data-i18n="active_deals">Активные сделки</p>
+      <div id="home-deals"><p class="empty" data-i18n="no_deals">Нет сделок</p></div>
     </section>
 
-    <!-- WALLET -->
     <section id="s-wallet" class="screen">
-      <h2 class="screen-title">Кошельки</h2>
+      <h2 class="screen-title" data-i18n="wallets">Кошельки</h2>
       <div class="card" style="text-align:center; margin-bottom:14px;">
-        <p style="font-size:11px; color:var(--muted-2); margin-bottom:4px;">Общий баланс</p>
-        <p style="font-size:24px; font-weight:500; color:var(--ink);">≈ 1 248,30 $</p>
+        <p style="font-size:11px; color:var(--muted-2); margin-bottom:4px;" data-i18n="total_balance">Общий баланс</p>
+        <p style="font-size:24px; font-weight:500; color:var(--ink);">≈ 0,00 $</p>
         <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn" style="padding:9px; font-size:13px;">Пополнить</button>
-          <button class="btn ghost" style="padding:9px; font-size:13px;">Вывести</button>
+          <button class="btn" style="padding:9px; font-size:13px;" data-i18n="top_up">Пополнить</button>
+          <button class="btn ghost" style="padding:9px; font-size:13px;" data-i18n="withdraw">Вывести</button>
         </div>
       </div>
-      <p class="lbl" style="margin-top:0;">Валюты</p>
+      <p class="lbl" style="margin-top:0;" data-i18n="currencies">Валюты</p>
       <div id="cur-list"></div>
     </section>
 
-    <!-- DEALS -->
     <section id="s-deals" class="screen">
-      <h2 class="screen-title">Сделки</h2>
+      <h2 class="screen-title" data-i18n="deals">Сделки</h2>
       <div class="deal-stats">
-        <h3>Статистика сделок</h3>
+        <h3 data-i18n="deals_stats">Статистика сделок</h3>
         <div class="ds-grid">
-          <div class="ds-cell"><p class="cap">Успешных</p><p class="num" style="color:#4A6138;">12</p></div>
-          <div class="ds-cell"><p class="cap">Завершённых</p><p class="num" style="color:var(--ink);">15</p></div>
-          <div class="ds-cell"><p class="cap">Отменённых</p><p class="num" style="color:#A05A45;">2</p></div>
-          <div class="ds-cell"><p class="cap">Всего</p><p class="num" style="color:var(--ink);">17</p></div>
+          <div class="ds-cell"><p class="cap" data-i18n="successful">Успешных</p><p class="num">0</p></div>
+          <div class="ds-cell"><p class="cap" data-i18n="completed">Завершённых</p><p class="num">0</p></div>
+          <div class="ds-cell"><p class="cap" data-i18n="cancelled">Отменённых</p><p class="num">0</p></div>
+          <div class="ds-cell"><p class="cap" data-i18n="total">Всего</p><p class="num">0</p></div>
         </div>
-        <div class="ds-turnover"><p class="cap">Торговый оборот</p><p class="num">3 480,00 $</p></div>
+        <div class="ds-turnover"><p class="cap" data-i18n="turnover">Торговый оборот</p><p class="num">0,00 $</p></div>
       </div>
       <div class="filters">
-        <button class="fil on" data-f="all">Все</button>
-        <button class="fil" data-f="active">Активные</button>
-        <button class="fil" data-f="done">Завершённые</button>
+        <button class="fil on" data-f="all" data-i18n="f_all">Все</button>
+        <button class="fil" data-f="active" data-i18n="f_active">Активные</button>
+        <button class="fil" data-f="done" data-i18n="f_done">Завершённые</button>
       </div>
-      <div id="deal-list"></div>
-      <button class="btn" style="margin-top:6px;"><i class="ti ti-plus" style="vertical-align:-2px; margin-right:6px;"></i>Создать сделку</button>
+      <div id="deal-list"><p class="empty" data-i18n="no_deals">Нет сделок</p></div>
+      <button class="btn" style="margin-top:6px;" onclick="openCreate()"><i class="ti ti-plus" style="vertical-align:-2px; margin-inline-end:6px;"></i><span data-i18n="create_deal">Создать сделку</span></button>
     </section>
 
-    <!-- PROFILE -->
     <section id="s-profile" class="screen">
-      <h2 class="screen-title">Профиль</h2>
+      <h2 class="screen-title" data-i18n="profile">Профиль</h2>
       <div class="card" style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
-        <div class="avatar" style="width:52px; height:52px; font-size:18px;">AП</div>
+        <div class="avatar" style="width:52px; height:52px;"><i class="ti ti-user" style="font-size:26px;"></i></div>
         <div>
-          <p style="font-size:16px; font-weight:500; color:var(--ink);">Артём П.</p>
-          <p style="font-size:12px; color:var(--muted); margin-top:2px;">@artem · ID 480213</p>
+          <p style="font-size:16px; font-weight:500; color:var(--ink);" data-i18n="user">Пользователь</p>
+          <p style="font-size:12px; color:var(--muted); margin-top:2px;">—</p>
         </div>
       </div>
       <div class="stat-grid" style="margin-bottom:14px;">
-        <div class="stat"><p class="num">47</p><p class="cap">Сделок</p></div>
-        <div class="stat"><p class="num">4,9</p><p class="cap">Рейтинг</p></div>
+        <div class="stat"><p class="num">0</p><p class="cap" data-i18n="deals_count">Сделок</p></div>
+        <div class="stat"><p class="num">—</p><p class="cap" data-i18n="rating">Рейтинг</p></div>
       </div>
-      <div class="row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-shield-lock" style="font-size:19px; color:#8C7355;"></i><span style="font-size:14px;">Безопасность</span></div><i class="ti ti-chevron-right" style="color:var(--muted);"></i></div>
-      <div class="row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-world" style="font-size:19px; color:#8C7355;"></i><span style="font-size:14px;">Язык и валюта</span></div><i class="ti ti-chevron-right" style="color:var(--muted);"></i></div>
-      <div class="row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-bell-cog" style="font-size:19px; color:#8C7355;"></i><span style="font-size:14px;">Уведомления</span></div><i class="ti ti-chevron-right" style="color:var(--muted);"></i></div>
-      <div class="row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-help-circle" style="font-size:19px; color:#8C7355;"></i><span style="font-size:14px;">Поддержка</span></div><i class="ti ti-chevron-right" style="color:var(--muted);"></i></div>
+
+      <p class="lbl" data-i18n="language">Язык</p>
+      <div class="lang-pills" id="lang-pills">
+        <button class="lang-pill" data-lang="ru">Русский</button>
+        <button class="lang-pill" data-lang="en">English</button>
+        <button class="lang-pill" data-lang="ar">العربية</button>
+      </div>
+
+      <p class="lbl" data-i18n="settings">Настройки</p>
+      <div class="row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-shield-lock" style="font-size:19px; color:var(--avatar-tx);"></i><span style="font-size:14px;" data-i18n="security">Безопасность</span></div><i class="ti ti-chevron-right" style="color:var(--muted);"></i></div>
+      <div class="row" id="theme-row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-palette" style="font-size:19px; color:var(--avatar-tx);"></i><span style="font-size:14px;" data-i18n="appearance">Тема оформления</span></div><span style="font-size:13px; color:var(--muted);" id="theme-label">—</span></div>
+      <div class="row"><div style="display:flex; align-items:center; gap:10px;"><i class="ti ti-help-circle" style="font-size:19px; color:var(--avatar-tx);"></i><span style="font-size:14px;" data-i18n="support">Поддержка</span></div><i class="ti ti-chevron-right" style="color:var(--muted);"></i></div>
     </section>
 
   </div>
 
-  <!-- ============ BOTTOM NAV ============ -->
   <nav>
-    <button class="tab on" data-s="home"><i class="ti ti-home"></i>Главная</button>
-    <button class="tab" data-s="wallet"><i class="ti ti-wallet"></i>Кошельки</button>
-    <button class="tab" data-s="deals"><i class="ti ti-arrows-exchange"></i>Сделки</button>
-    <button class="tab" data-s="profile"><i class="ti ti-user"></i>Профиль</button>
+    <button class="tab on" data-s="home"><i class="ti ti-home"></i><span data-i18n="nav_home">Главная</span></button>
+    <button class="tab" data-s="wallet"><i class="ti ti-wallet"></i><span data-i18n="nav_wallet">Кошельки</span></button>
+    <button class="tab" data-s="deals"><i class="ti ti-arrows-exchange"></i><span data-i18n="nav_deals">Сделки</span></button>
+    <button class="tab" data-s="profile"><i class="ti ti-user"></i><span data-i18n="nav_profile">Профиль</span></button>
   </nav>
+
+  <div id="sheet-overlay">
+    <div class="sheet" id="sheet"></div>
+  </div>
 </div>
 
 <script>
-  // ----- splash -----
-  setTimeout(function(){ document.getElementById('splash').classList.add('hide'); }, 2000);
+var I18N = {
+  ru:{
+    loading:'Загрузка…', greeting:'Здравствуйте', guarantor_active:'Гарант активен',
+    deals_in_progress:'Сделок в работе', new_deal:'Новая сделка', by_code:'По коду',
+    active_deals:'Активные сделки', no_deals:'Нет сделок',
+    wallets:'Кошельки', total_balance:'Общий баланс', top_up:'Пополнить', withdraw:'Вывести', currencies:'Валюты',
+    deals:'Сделки', deals_stats:'Статистика сделок', successful:'Успешных', completed:'Завершённых',
+    cancelled:'Отменённых', total:'Всего', turnover:'Торговый оборот',
+    f_all:'Все', f_active:'Активные', f_done:'Завершённые', create_deal:'Создать сделку',
+    profile:'Профиль', user:'Пользователь', deals_count:'Сделок', rating:'Рейтинг',
+    language:'Язык', settings:'Настройки', security:'Безопасность', appearance:'Тема оформления', support:'Поддержка',
+    nav_home:'Главная', nav_wallet:'Кошельки', nav_deals:'Сделки', nav_profile:'Профиль',
+    theme_light:'Светлая', theme_dark:'Тёмная',
+    sel_currency:'Выберите валюту', describe_title:'Описание сделки',
+    describe_hint:'Опишите, что вы предлагаете в этой сделке.',
+    describe_ph:'Например: NFT Plush Pepe, передача после оплаты…',
+    amount_title:'Сумма сделки', amount_hint:'Укажите сумму в выбранной валюте.', amount_ph:'0.00',
+    review_title:'Проверьте данные', review_hint:'Убедитесь, что вы указали данные сделки верно.',
+    r_currency:'Валюта', r_desc:'Описание', r_amount:'Сумма',
+    continue:'Продолжить', next:'Далее', success_title:'Сделка создана',
+    success_hint:'Сделка успешно создана. Отправьте ссылку второй стороне.', done:'Готово'
+  },
+  en:{
+    loading:'Loading…', greeting:'Welcome', guarantor_active:'Guarantor active',
+    deals_in_progress:'Deals in progress', new_deal:'New deal', by_code:'By code',
+    active_deals:'Active deals', no_deals:'No deals',
+    wallets:'Wallets', total_balance:'Total balance', top_up:'Top up', withdraw:'Withdraw', currencies:'Currencies',
+    deals:'Deals', deals_stats:'Deal statistics', successful:'Successful', completed:'Completed',
+    cancelled:'Cancelled', total:'Total', turnover:'Turnover',
+    f_all:'All', f_active:'Active', f_done:'Completed', create_deal:'Create deal',
+    profile:'Profile', user:'User', deals_count:'Deals', rating:'Rating',
+    language:'Language', settings:'Settings', security:'Security', appearance:'Appearance', support:'Support',
+    nav_home:'Home', nav_wallet:'Wallets', nav_deals:'Deals', nav_profile:'Profile',
+    theme_light:'Light', theme_dark:'Dark',
+    sel_currency:'Select currency', describe_title:'Deal description',
+    describe_hint:'Describe what you offer in this deal.',
+    describe_ph:'e.g. NFT Plush Pepe, transfer after payment…',
+    amount_title:'Deal amount', amount_hint:'Enter the amount in the selected currency.', amount_ph:'0.00',
+    review_title:'Review details', review_hint:'Make sure you entered the deal details correctly.',
+    r_currency:'Currency', r_desc:'Description', r_amount:'Amount',
+    continue:'Continue', next:'Next', success_title:'Deal created',
+    success_hint:'Your deal was created. Share the link with the other party.', done:'Done'
+  },
+  ar:{
+    loading:'جارٍ التحميل…', greeting:'مرحباً', guarantor_active:'الضامن نشط',
+    deals_in_progress:'صفقات قيد التنفيذ', new_deal:'صفقة جديدة', by_code:'عبر الرمز',
+    active_deals:'الصفقات النشطة', no_deals:'لا توجد صفقات',
+    wallets:'المحافظ', total_balance:'الرصيد الإجمالي', top_up:'إيداع', withdraw:'سحب', currencies:'العملات',
+    deals:'الصفقات', deals_stats:'إحصائيات الصفقات', successful:'ناجحة', completed:'مكتملة',
+    cancelled:'ملغاة', total:'الإجمالي', turnover:'حجم التداول',
+    f_all:'الكل', f_active:'نشطة', f_done:'مكتملة', create_deal:'إنشاء صفقة',
+    profile:'الملف الشخصي', user:'مستخدم', deals_count:'الصفقات', rating:'التقييم',
+    language:'اللغة', settings:'الإعدادات', security:'الأمان', appearance:'المظهر', support:'الدعم',
+    nav_home:'الرئيسية', nav_wallet:'المحافظ', nav_deals:'الصفقات', nav_profile:'الملف',
+    theme_light:'فاتح', theme_dark:'داكن',
+    sel_currency:'اختر العملة', describe_title:'وصف الصفقة',
+    describe_hint:'صف ما تقدمه في هذه الصفقة.',
+    describe_ph:'مثال: NFT Plush Pepe، التسليم بعد الدفع…',
+    amount_title:'مبلغ الصفقة', amount_hint:'أدخل المبلغ بالعملة المختارة.', amount_ph:'0.00',
+    review_title:'تحقق من البيانات', review_hint:'تأكد من إدخال بيانات الصفقة بشكل صحيح.',
+    r_currency:'العملة', r_desc:'الوصف', r_amount:'المبلغ',
+    continue:'متابعة', next:'التالي', success_title:'تم إنشاء الصفقة',
+    success_hint:'تم إنشاء صفقتك. شارك الرابط مع الطرف الآخر.', done:'تم'
+  }
+};
+var lang = 'ru';
+function t(k){ return (I18N[lang] && I18N[lang][k]) || k; }
+function applyLang(l){
+  lang = l;
+  var rtl = (l === 'ar');
+  document.documentElement.lang = l;
+  document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('#lang-pills .lang-pill').forEach(function(b){ b.classList.toggle('on', b.dataset.lang===l); });
+  renderDeals(); updateThemeLabel();
+}
 
-  // ----- currencies -----
-  var W = '#ffffff';
-  function curIcon(bg, inner){
-    return '<svg viewBox="0 0 38 38"><circle cx="19" cy="19" r="19" fill="'+bg+'"/>'+inner+'</svg>';
-  }
-  function curGlyph(ch, size){
-    return '<text x="19" y="19" font-size="'+size+'" font-weight="700" fill="'+W+'" text-anchor="middle" dominant-baseline="central" font-family="Arial,Helvetica,sans-serif">'+ch+'</text>';
-  }
-  var curIcons = {
-    Stars: curIcon('#E6A817','<path d="M19 9c.5 0 .9.3 1.1.8l1.9 5c.2.5.6.9 1.1 1.1l5 1.9c1 .4 1 1.8 0 2.2l-5 1.9c-.5.2-.9.6-1.1 1.1l-1.9 5c-.4 1-1.8 1-2.2 0l-1.9-5c-.2-.5-.6-.9-1.1-1.1l-5-1.9c-1-.4-1-1.8 0-2.2l5-1.9c.5-.2.9-.6 1.1-1.1l1.9-5C18.1 9.3 18.5 9 19 9z" fill="'+W+'"/>'),
-    TON:   curIcon('#0098EA','<path d="M11 14.5h16L19 29z" fill="none" stroke="'+W+'" stroke-width="2.2" stroke-linejoin="round"/><path d="M19 16.8V26.5" stroke="'+W+'" stroke-width="2.2" stroke-linecap="round"/>'),
-    USDT:  curIcon('#26A17B','<path d="M11.5 13h15M19 13v15" stroke="'+W+'" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="19" cy="17.5" rx="7.5" ry="3" fill="none" stroke="'+W+'" stroke-width="2.2"/>'),
-    BTC:   curIcon('#F7931A','<path d="M16 10.5h2.4c3 0 5 1.3 5 3.8 0 1.7-1 2.8-2.6 3.2 1.9.3 3.2 1.5 3.2 3.5 0 2.7-2.2 4.2-5.4 4.2H16z" fill="none" stroke="'+W+'" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 8v3M16 27v3M19.5 8v3M19.5 27v3" stroke="'+W+'" stroke-width="2" stroke-linecap="round"/>'),
-    ETH:   curIcon('#627EEA','<path d="M19 8l7 11-7 4-7-4z" fill="'+W+'" opacity=".55"/><path d="M19 24.5L12 20.5l7 9 7-9z" fill="'+W+'"/>'),
-    UAH:   curIcon('#1E9AE0', curGlyph('\u20B4', 22)),
-    KZT:   curIcon('#00AFCA', curGlyph('\u20B8', 22)),
-    RUB:   curIcon('#C25450', curGlyph('\u20BD', 23)),
-    USD:   curIcon('#3E8E5A', curGlyph('$', 24)),
-    EUR:   curIcon('#3B5BBF', curGlyph('\u20AC', 23)),
-    JPY:   curIcon('#BC5A78', curGlyph('\u00A5', 23))
+function setTheme(mode){
+  document.documentElement.setAttribute('data-theme', mode);
+  var icon = document.querySelector('#theme-btn i');
+  if(icon) icon.className = (mode==='dark') ? 'ti ti-sun' : 'ti ti-moon';
+  updateThemeLabel();
+}
+function curTheme(){ return document.documentElement.getAttribute('data-theme')==='dark' ? 'dark' : 'light'; }
+function toggleTheme(){ buzz(8); setTheme(curTheme()==='dark' ? 'light' : 'dark'); }
+function updateThemeLabel(){
+  var lblEl = document.getElementById('theme-label');
+  if(lblEl) lblEl.textContent = (curTheme()==='dark') ? t('theme_dark') : t('theme_light');
+}
+document.getElementById('theme-btn').onclick = toggleTheme;
+document.getElementById('theme-row').onclick = toggleTheme;
+
+function buzz(ms){
+  try{
+    if(window.Telegram && Telegram.WebApp && Telegram.WebApp.HapticFeedback){
+      Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+    } else if(navigator.vibrate){
+      navigator.vibrate(ms || 12);
+    }
+  }catch(e){}
+}
+
+var W = '#ffffff';
+function curIcon(bg, inner){ return '<svg viewBox="0 0 38 38"><circle cx="19" cy="19" r="19" fill="'+bg+'"/>'+inner+'</svg>'; }
+function curGlyph(ch, size){ return '<text x="19" y="19" font-size="'+size+'" font-weight="700" fill="'+W+'" text-anchor="middle" dominant-baseline="central" font-family="Arial,Helvetica,sans-serif">'+ch+'</text>'; }
+var curIcons = {
+  Stars: curIcon('#E6A817','<path d="M19 9c.5 0 .9.3 1.1.8l1.9 5c.2.5.6.9 1.1 1.1l5 1.9c1 .4 1 1.8 0 2.2l-5 1.9c-.5.2-.9.6-1.1 1.1l-1.9 5c-.4 1-1.8 1-2.2 0l-1.9-5c-.2-.5-.6-.9-1.1-1.1l-5-1.9c-1-.4-1-1.8 0-2.2l5-1.9c.5-.2.9-.6 1.1-1.1l1.9-5C18.1 9.3 18.5 9 19 9z" fill="'+W+'"/>'),
+  TON:   curIcon('#0098EA','<path d="M11 14.5h16L19 29z" fill="none" stroke="'+W+'" stroke-width="2.2" stroke-linejoin="round"/><path d="M19 16.8V26.5" stroke="'+W+'" stroke-width="2.2" stroke-linecap="round"/>'),
+  USDT:  curIcon('#26A17B','<path d="M11.5 13h15M19 13v15" stroke="'+W+'" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="19" cy="17.5" rx="7.5" ry="3" fill="none" stroke="'+W+'" stroke-width="2.2"/>'),
+  BTC:   curIcon('#F7931A','<path d="M16 10.5h2.4c3 0 5 1.3 5 3.8 0 1.7-1 2.8-2.6 3.2 1.9.3 3.2 1.5 3.2 3.5 0 2.7-2.2 4.2-5.4 4.2H16z" fill="none" stroke="'+W+'" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 8v3M16 27v3M19.5 8v3M19.5 27v3" stroke="'+W+'" stroke-width="2" stroke-linecap="round"/>'),
+  ETH:   curIcon('#627EEA','<path d="M19 8l7 11-7 4-7-4z" fill="'+W+'" opacity=".55"/><path d="M19 24.5L12 20.5l7 9 7-9z" fill="'+W+'"/>'),
+  UAH:   curIcon('#1E9AE0', curGlyph('\u20B4', 22)),
+  KZT:   curIcon('#00AFCA', curGlyph('\u20B8', 22)),
+  RUB:   curIcon('#C25450', curGlyph('\u20BD', 23)),
+  USD:   curIcon('#3E8E5A', curGlyph('$', 24)),
+  EUR:   curIcon('#3B5BBF', curGlyph('\u20AC', 23)),
+  JPY:   curIcon('#BC5A78', curGlyph('\u00A5', 23))
+};
+var currencies = [
+  {n:'Telegram Stars', s:'Stars'}, {n:'Toncoin', s:'TON'}, {n:'Tether', s:'USDT'},
+  {n:'Bitcoin', s:'BTC'}, {n:'Ethereum', s:'ETH'}, {n:'UAH', s:'UAH'}, {n:'KZT', s:'KZT'},
+  {n:'RUB', s:'RUB'}, {n:'USD', s:'USD'}, {n:'EUR', s:'EUR'}, {n:'JPY', s:'JPY'}
+];
+document.getElementById('cur-list').innerHTML = currencies.map(function(x){
+  return '<div class="row">'+
+    '<div style="display:flex; align-items:center; gap:11px;">'+
+      '<div class="ic">'+curIcons[x.s]+'</div>'+
+      '<div><p class="t-name">'+x.n+'</p><p class="t-sub">0,00 '+x.s+'</p></div>'+
+    '</div>'+
+    '<span style="font-size:13px; color:var(--ink-2);">≈ 0,00 $</span>'+
+  '</div>';
+}).join('');
+
+function renderDeals(){
+  var el = document.getElementById('deal-list');
+  if(el) el.innerHTML = '<p class="empty">'+t('no_deals')+'</p>';
+}
+renderDeals();
+document.querySelectorAll('.fil').forEach(function(b){
+  b.onclick = function(){
+    document.querySelectorAll('.fil').forEach(function(o){ o.classList.remove('on'); });
+    b.classList.add('on'); buzz(6); renderDeals();
   };
-  var currencies = [
-    {n:'Telegram Stars', s:'Stars', b:'12 400',  v:'≈ 186,00 $'},
-    {n:'Toncoin',        s:'TON',   b:'142,50',   v:'≈ 712,50 $'},
-    {n:'Tether',         s:'USDT',  b:'310,00',   v:'≈ 310,00 $'},
-    {n:'Bitcoin',        s:'BTC',   b:'0,0021',   v:'≈ 148,00 $'},
-    {n:'Ethereum',       s:'ETH',   b:'0,018',    v:'≈ 64,80 $'},
-    {n:'Гривна',         s:'UAH',   b:'1 050,00', v:'≈ 26,00 $'},
-    {n:'Тенге',          s:'KZT',   b:'9 800,00', v:'≈ 21,30 $'},
-    {n:'Рубль',          s:'RUB',   b:'4 200,00', v:'≈ 46,00 $'},
-    {n:'Доллар',         s:'USD',   b:'120,00',   v:'≈ 120,00 $'},
-    {n:'Евро',           s:'EUR',   b:'85,00',    v:'≈ 92,00 $'},
-    {n:'Иена',           s:'JPY',   b:'9 400',    v:'≈ 60,00 $'}
-  ];
-  document.getElementById('cur-list').innerHTML = currencies.map(function(x){
-    return '<div class="row">'+
+});
+
+function go(name){
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('on', t.dataset.s===name); });
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('on'); });
+  document.getElementById('s-'+name).classList.add('on');
+  document.querySelector('.screens').scrollTop = 0;
+  buzz(6);
+}
+document.querySelectorAll('.tab').forEach(function(tb){ tb.onclick = function(){ go(tb.dataset.s); }; });
+
+var draft = { currency:null, desc:'', amount:'' };
+var overlay = document.getElementById('sheet-overlay');
+var sheet = document.getElementById('sheet');
+
+function openCreate(){ buzz(10); draft = {currency:null, desc:'', amount:''}; overlay.classList.add('on'); stepCurrency(); }
+function closeSheet(){ overlay.classList.remove('on'); }
+overlay.addEventListener('click', function(e){ if(e.target===overlay) closeSheet(); });
+
+function head(title, backFn){
+  return '<div class="grabber"></div>'+
+    '<div class="sheet-head">'+
+      (backFn ? '<button class="sheet-back" onclick="'+backFn+'"><i class="ti ti-arrow-'+(lang==='ar'?'right':'left')+'"></i></button>' : '')+
+      '<span class="sheet-title">'+title+'</span>'+
+    '</div>';
+}
+
+function stepCurrency(){
+  sheet.innerHTML = head(t('sel_currency'), null) + '<div id="sheet-cur"></div>';
+  document.getElementById('sheet-cur').innerHTML = currencies.map(function(x){
+    return '<div class="row" onclick="pickCurrency(\''+x.s+'\')">'+
       '<div style="display:flex; align-items:center; gap:11px;">'+
         '<div class="ic">'+curIcons[x.s]+'</div>'+
-        '<div><p class="t-name">'+x.n+'</p><p class="t-sub">'+x.b+' '+x.s+'</p></div>'+
-      '</div>'+
-      '<span style="font-size:13px; color:var(--ink-2);">'+x.v+'</span>'+
-    '</div>';
+        '<p class="t-name">'+x.n+'</p>'+
+      '</div><i class="ti ti-chevron-'+(lang==='ar'?'left':'right')+'" style="color:var(--muted);"></i></div>';
   }).join('');
+}
+function pickCurrency(s){ buzz(8); draft.currency = s; stepDescribe(); }
 
-  // ----- deals -----
-  var deals = [
-    {t:'NFT Plush Pepe',    d:'320 TON · покупатель',  st:'active', lbl:'В работе',   cls:'gold'},
-    {t:'Подарок «Кольцо»',  d:'45 USDT · продавец',    st:'active', lbl:'Оплачено',   cls:'green'},
-    {t:'NFT Diamond Hand',  d:'180 TON · покупатель',  st:'done',   lbl:'Завершено',  cls:'gray'},
-    {t:'Stars 5000',        d:'2 500 Stars · продавец',st:'done',   lbl:'Завершено',  cls:'gray'},
-    {t:'Подарок «Кепка»',   d:'30 USDT · покупатель',  st:'done',   lbl:'Завершено',  cls:'gray'}
-  ];
-  var pillMap = {
-    gold:'background:var(--pill-gold-bg); color:var(--pill-gold-tx);',
-    green:'background:var(--pill-green-bg); color:var(--pill-green-tx);',
-    gray:'background:var(--pill-gray-bg); color:var(--pill-gray-tx);'
+function stepDescribe(){
+  sheet.innerHTML = head(t('describe_title'), 'stepCurrency()') +
+    '<p class="sheet-hint">'+t('describe_hint')+'</p>'+
+    '<textarea id="d-desc" placeholder="'+t('describe_ph')+'">'+draft.desc+'</textarea>'+
+    '<button class="btn" style="margin-top:14px;" id="d-next" disabled onclick="afterDescribe()">'+t('next')+'</button>';
+  var ta = document.getElementById('d-desc'), nx = document.getElementById('d-next');
+  ta.focus();
+  ta.oninput = function(){ draft.desc = ta.value.trim(); nx.disabled = draft.desc.length === 0; };
+  nx.disabled = draft.desc.length === 0;
+}
+function afterDescribe(){ buzz(8); stepAmount(); }
+
+function stepAmount(){
+  sheet.innerHTML = head(t('amount_title'), 'stepDescribe()') +
+    '<p class="sheet-hint">'+t('amount_hint')+'</p>'+
+    '<div style="display:flex; align-items:center; gap:10px;">'+
+      '<div class="ic" style="width:34px;height:34px;">'+curIcons[draft.currency]+'</div>'+
+      '<input id="d-amount" inputmode="decimal" placeholder="'+t('amount_ph')+'" value="'+draft.amount+'" style="flex:1;">'+
+      '<span style="font-size:14px; color:var(--muted); font-weight:500;">'+draft.currency+'</span>'+
+    '</div>'+
+    '<button class="btn" style="margin-top:14px;" id="a-next" disabled onclick="afterAmount()">'+t('next')+'</button>';
+  var inp = document.getElementById('d-amount'), nx = document.getElementById('a-next');
+  inp.focus();
+  inp.oninput = function(){
+    inp.value = inp.value.replace(/[^0-9.,]/g,'');
+    draft.amount = inp.value.trim();
+    nx.disabled = !(parseFloat(draft.amount.replace(',','.')) > 0);
   };
-  function renderDeals(f){
-    var list = deals.filter(function(x){ return f==='all' || x.st===f; });
-    document.getElementById('deal-list').innerHTML = list.length ? list.map(function(x){
-      return '<div class="row">'+
-        '<div><p class="t-name">'+x.t+'</p><p class="t-sub">'+x.d+'</p></div>'+
-        '<span class="pill" style="'+pillMap[x.cls]+'">'+x.lbl+'</span>'+
-      '</div>';
-    }).join('') : '<p style="font-size:13px; color:var(--muted); text-align:center; padding:24px 0;">Нет сделок</p>';
-  }
-  renderDeals('all');
-  document.querySelectorAll('.fil').forEach(function(b){
-    b.onclick = function(){
-      document.querySelectorAll('.fil').forEach(function(o){ o.classList.remove('on'); });
-      b.classList.add('on');
-      renderDeals(b.dataset.f);
-    };
-  });
+}
+function afterAmount(){ buzz(8); stepReview(); }
 
-  // ----- tab navigation -----
-  function go(name){
-    document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('on', t.dataset.s===name); });
-    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('on'); });
-    document.getElementById('s-'+name).classList.add('on');
-    document.querySelector('.screens').scrollTop = 0;
-  }
-  document.querySelectorAll('.tab').forEach(function(t){ t.onclick = function(){ go(t.dataset.s); }; });
+function stepReview(){
+  sheet.innerHTML = head(t('review_title'), 'stepAmount()') +
+    '<p class="sheet-hint">'+t('review_hint')+'</p>'+
+    '<div class="card" style="margin-bottom:16px;">'+
+      '<div class="review-row"><span class="k">'+t('r_currency')+'</span><span class="v">'+draft.currency+'</span></div>'+
+      '<div class="review-row"><span class="k">'+t('r_desc')+'</span><span class="v">'+escapeHtml(draft.desc)+'</span></div>'+
+      '<div class="review-row"><span class="k">'+t('r_amount')+'</span><span class="v">'+escapeHtml(draft.amount)+' '+draft.currency+'</span></div>'+
+    '</div>'+
+    '<button class="btn" onclick="submitDeal()">'+t('continue')+'</button>';
+}
+
+function submitDeal(){
+  buzz(20);
+  sheet.innerHTML = '<div class="grabber"></div>'+
+    '<div class="success-box">'+
+      '<div class="success-ic"><i class="ti ti-check"></i></div>'+
+      '<p style="font-size:18px; font-weight:500; color:var(--ink); margin-bottom:8px;">'+t('success_title')+'</p>'+
+      '<p style="font-size:13px; color:var(--muted); line-height:1.5; max-width:280px; margin:0 auto;">'+t('success_hint')+'</p>'+
+    '</div>'+
+    '<button class="btn" style="margin-top:20px;" onclick="closeSheet()">'+t('done')+'</button>';
+  try{ if(window.Telegram && Telegram.WebApp) Telegram.WebApp.sendData(JSON.stringify(draft)); }catch(e){}
+}
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+document.querySelectorAll('#lang-pills .lang-pill').forEach(function(b){
+  b.onclick = function(){ buzz(6); applyLang(b.dataset.lang); };
+});
+
+setTheme('light');
+applyLang('ru');
+
+setTimeout(function(){
+  document.getElementById('splash').classList.add('hide');
+  buzz(30);
+}, 2000);
+
+try{
+  if(window.Telegram && Telegram.WebApp){ Telegram.WebApp.ready(); Telegram.WebApp.expand(); }
+}catch(e){}
 </script>
 </body>
 </html>
